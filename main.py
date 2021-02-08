@@ -1,7 +1,5 @@
 
-from fastapi import FastAPI, Path, Query, Depends, HTTPException,status
-from typing import Optional,List
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi import FastAPI
 from pprint import pprint
 from routers import monitoring,k8s,ceph
 

@@ -8,7 +8,6 @@ class kubernetes:
         self.core = client.CoreV1Api()
         self.crd = client.CustomObjectsApi()
 
-
     def getNamespaces(self):
         namespaces = json.loads(self.core.list_namespace(_preload_content=False).data)
         return namespaces
