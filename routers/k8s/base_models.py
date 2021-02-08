@@ -12,3 +12,9 @@ class Metadata(BaseModel):
 
 class NamespaceList(BaseModel):
     items: List[Metadata]
+
+class PipelineRunInput(BaseModel):
+    pipelineRef: str
+    image: str
+    gitRepo: str
+    namespace: Optional[str] = "default"
