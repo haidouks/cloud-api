@@ -13,6 +13,9 @@ class Metadata(BaseModel):
 class NamespaceList(BaseModel):
     items: List[Metadata]
 
+class NamespaceInput(BaseModel):
+    namespace: str
+
 class PipelineRunInput(BaseModel):
     pipelineRef: str
     image: str

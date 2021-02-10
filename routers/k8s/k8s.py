@@ -9,9 +9,13 @@ import json
 router = APIRouter()  
 k8s = kubernetes()
 
-@router.get("/kubernetes/resources/namespaces",response_model=NamespaceList, tags=["kubernetes"])
+@router.get("/kubernetes/resources/namespace",response_model=NamespaceList, tags=["kubernetes"])
 def get_kubernetes_namespaces():
   return k8s.getNamespaces()
+
+@router.post("/kubernetes/resources/namespace", tags=["kubernetes"])
+def create_new_namespace(input: NamespaceInput):
+  return k8s.newNamespace(namespace=input.namespace)
 
 @router.post("/kubernetes/tektoncd/pipelineRun", tags=["tektoncd"])
 def trigger_tektoncd_pipeline(input: PipelineRunInput):

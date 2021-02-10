@@ -1,5 +1,5 @@
 from kubernetes import client, config
-import json
+import json,yaml
 from pprint import pprint
 import logging
 
@@ -13,9 +13,18 @@ class kubernetes:
         except Exception as e:
             logging.error(f"Initializing k8s client: {e}", exc_info=True)
 
+    def newNamespace(self, namespace: str):
+        body = client.V1Namespace()
+        metadata = client.V1ObjectMeta()
+        metadata.name = namespace
+        body.metadata = metadata
+        result = json.loads(self.core.create_namespace(body=body,_preload_content=False).data)
+        return result
+
+
     def getNamespaces(self):
-        namespaces = json.loads(self.core.list_namespace(_preload_content=False).data)
-        return namespaces
+        result = json.loads(self.core.list_namespace(_preload_content=False).data)
+        return result
 
     def newPipelineRun(self, pipelineRef: str, image: str, gitRepo: str, namespace: str= "default"):
         pipelineRun = {
