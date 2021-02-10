@@ -1,12 +1,17 @@
 from kubernetes import client, config
 import json
 from pprint import pprint
+import logging
 
 class kubernetes:
+    logging.basicConfig(level=logging.ERROR,format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
     def __init__(self):
-        config.load_kube_config()
-        self.core = client.CoreV1Api()
-        self.crd = client.CustomObjectsApi()
+        try:
+            config.load_incluster_config()
+            self.core = client.CoreV1Api()
+            self.crd = client.CustomObjectsApi()
+        except Exception as e:
+            logging.error(f"Initializing k8s client: {e}", exc_info=True)
 
     def getNamespaces(self):
         namespaces = json.loads(self.core.list_namespace(_preload_content=False).data)
